@@ -1,0 +1,15 @@
+BlIND SQL Injection
+Conditional Responses
+
+Vulnerable Parameter - tracking cookie
+Cookie: TrackingId=u5YD3PapBcR4lN3e7Tj4
+
+When a request containing a TrackingId cookie is processed, the application determines whether this is a known user using an SQL query like this:
+
+SELECT TrackingId FROM TrackedUsers WHERE TrackingId = 'u5YD3PapBcR4lN3e7Tj4'
+
+Goals
+Enumerate password of Admin
+Login as Admin
+
+Analysis

